@@ -5,7 +5,7 @@
  * (using xampp, or wamp....or whatever)
  */
 
-define(BASE, "absolute/path/to/app");
+define(BASE, preg_replace('/\/[^\/]+$/', '', dirname(__FILE__)));
 
 $host     = 'localhost'; //localhost is the default.
 $dbname   = ''; //The name of the database to use for the toon project.
