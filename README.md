@@ -1,13 +1,13 @@
 This is an H1
 =============
 
-/**
- * The following assumes that the voters information is set up as follows...
- */
+/**  
+ * The following assumes that the voters information is set up as follows...  
+ */  
 
-var votes  = new Object;
-votes.id   = 1001;
-votes.vote = 1; //This one's only needed for the /add/ one.
+var votes  = new Object;  
+votes.id   = 1001;  
+votes.vote = 1; //This one's only needed for the /add/ one.  
 
 
 /**
