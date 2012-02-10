@@ -1,0 +1,4 @@
+RewriteEngine on
+
+RewriteRule ^api/vote/(.*)/$ gateway.php?page=$1 [L]
+RewriteRule ^(.*)/$ $1.php [L]

@@ -126,7 +126,7 @@ echo "</ul>";
 
 ?>
 
-	<p id="loader" class="hidden"><img src="assets/img/ajax-loader.gif" /></p>
+	<p id="loader" class="hidden"><img src="/assets/img/ajax-loader.gif" /></p>
 
 	</body>
 

@@ -1,2 +1,3 @@
 #This file keeps track of files you NEVER want commited (like your config)
+
 config/config.php
