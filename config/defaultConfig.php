@@ -11,18 +11,23 @@ class Candidate {
 	public $name;
 	public $message;
 	public $image;
+	public $votes;
 
-	public function __construct($db='', $id=0, $name='', $message='', $image='')
+	public function __construct($db='', $id=0, $name='', $message='', $image='', $votes='')
 	{
 		$this->id      = $id;
 		$this->name    = $name;
 		$this->message = $message;
 		$this->image   = $image;
 		$this->db      = $db;
+		$this->votes   = $votes;
 	}
 	public function getInfo($id) 
 	{
-		$result = $this->db->prepare("SELECT * FROM candidates WHERE id=1");
+		$result = $this->db->prepare("SELECT c . * , COUNT( v.vote ) AS votes
+			FROM candidates c
+			STRAIGHT_JOIN votes v ON v.vote = c.id
+			WHERE c.id =$id);
 		$result->execute();
 		$obj = $result->fetch(PDO::FETCH_OBJ);
 
@@ -30,7 +35,8 @@ class Candidate {
 			$obj->id,
 			$obj->name,
 			$obj->message,
-			$obj->image
+			$obj->image,
+			$obj->votes,
 		);
 	}
 }
@@ -87,5 +93,5 @@ $candidates = array();
 
 while($single = $all->fetch(PDO::FETCH_OBJ)) 
 {
-	$candidates[] = new Candidate(null, $single->id, $single->name, $single->message, $single->image);
+	$candidates[] = new Candidate(null, $single->id, $single->name, $single->message, $single->image, $single->votes);
 }
