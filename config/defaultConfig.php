@@ -27,7 +27,7 @@ class Candidate {
 		$result = $this->db->prepare("SELECT c . * , COUNT( v.vote ) AS votes
 			FROM candidates c
 			STRAIGHT_JOIN votes v ON v.vote = c.id
-			WHERE c.id =$id);
+			WHERE c.id =$id");
 		$result->execute();
 		$obj = $result->fetch(PDO::FETCH_OBJ);
 
