@@ -1,9 +1,9 @@
-# API STuff #
+# API Stuff #
   
 This is some stuff that you're going to need to use for your javascript stuff
 
 
-## API Calls for voting ##
+## API Calls for Voting ##
   
 __The following assumes that the voters information is set up as follows...__  
 
@@ -27,7 +27,7 @@ $.post('/api/vote/remove/', { voter : votes}, function(data) {
 	_//data.success = returns true no matter what._  
 }, "json");
 
-## Pre-defined variables ##
+## Pre-defined Variables ##
   
 __$candidates__ is an array that holds all the candidates. So to loop through them you would do...  
   
