@@ -77,6 +77,23 @@
 	class Load {
 		public function pic($obj)
 		{
-			echo BASE.$obj->image;
+			echo "<img src='".BASE.$obj->image."' />";
 		}
+		public function name($obj)
+		{
+			echo $obj->name;
+		}
+		public function message($obj)
+		{
+			echo $obj->message;
+		}
+		public function votes($obj)
+		{
+			echo $obj->votes;
+		}
+		public function id($obj)
+		{
+			echo $obj->id;
+		}
+
 	}
