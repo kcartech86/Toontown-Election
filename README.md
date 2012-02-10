@@ -33,10 +33,11 @@ __$candidates__ is an array that holds all the candidates. So to loop through th
   
   foreach($candiates as $candidate)  
   {  
-  	echo $candidate->id . "&lt;br /&gt;";  
-  	echo $candidate->name . "&lt;br /&gt;";  
-  	echo $candidate->message . "&lt;br /&gt;";  
-  	echo $candidate->image . "&lt;br /&gt;&lt;br /&gt;";  
+  	echo $candidate->id . "&lt;br /&gt;";                 //Candidates id
+  	echo $candidate->name . "&lt;br /&gt;";               //Name of candidate
+  	echo $candidate->message . "&lt;br /&gt;";            //Candidates campaign message
+  	echo $candidate->image . "&lt;br /&gt;&lt;br /&gt;";  //Candidates image location
+  	echo $candidate->votes . "&lt;br /&gt;&lt;br /&gt;";  //Candidates number of votes;
   }  
    
 __$candidate__ is an object that will do the same as above for a single candidate by calling the following:  
