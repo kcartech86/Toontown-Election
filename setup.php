@@ -73,7 +73,7 @@ $queryArray[] = array("CREATE TABLE `candidates` (
 	PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;", "Candidates table created");
 
-$queryArray[] = array("INSERT INTO  `toon`.`candidates` (
+$queryArray[] = array("INSERT INTO  `candidates` (
 	`id` ,
 	`name` ,
 	`message` ,

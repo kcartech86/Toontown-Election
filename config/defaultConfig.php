@@ -1,6 +1,6 @@
 <?php
 try{
-  $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);  
+  $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);  
 }  
 catch(PDOException $e) {  
     echo $e->getMessage();  
@@ -36,7 +36,7 @@ class Candidate {
 			$obj->name,
 			$obj->message,
 			$obj->image,
-			$obj->votes,
+			$obj->votes
 		);
 	}
 }
