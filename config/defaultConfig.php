@@ -10,7 +10,8 @@ require_once("classes.php");
 
 
 $voter     = new Voter($pdo);
-$candidate = new Candidate($pdo);
+$candidate = new Candidate();
+$candidate->loadDb($pdo);
 
 $all = $pdo->prepare("SELECT * FROM candidates");
 $all->execute();
@@ -19,5 +20,5 @@ $candidates = array();
 
 while($single = $all->fetch(PDO::FETCH_OBJ)) 
 {
-	$candidates[] = new Candidate(null, $single->id, $single->name, $single->message, WEB_BASE."assets/img/".$single->image.".png", $single->votes);
+	$candidates[] = new Candidate($single->id, $single->name, $single->message, $single->image, $single->votes);
 }
