@@ -8,27 +8,32 @@
 
 		public function __construct($db='', $id=0, $name='', $message='', $image='', $votes='')
 		{
+			$this->db      = $db;
 			$this->id      = $id;
 			$this->name    = $name;
 			$this->message = $message;
 			$this->image   = $image;
-			$this->db      = $db;
 			$this->votes   = $votes;
 		}
-		public function getInfo($id) 
+		public function getInfo($find) 
 		{
-			$result = $this->db->prepare("SELECT c . * , COUNT( v.vote ) AS votes
+			if(!is_int($find))
+			{
+				$find = str_replace('-', ' ', $find);
+			}
+			$result = $this->db->prepare("SELECT c.* , COUNT( v.vote ) AS votes
 				FROM candidates c
-				STRAIGHT_JOIN votes v ON v.vote = c.id
-				WHERE c.id =$id");
+				LEFT JOIN votes v ON v.vote = c.id
+				WHERE c.id = '$find' OR c.name = '$find'");
 			$result->execute();
 			$obj = $result->fetch(PDO::FETCH_OBJ);
 
 			$this->__construct(
+				null,
 				$obj->id,
 				$obj->name,
 				$obj->message,
-				"/assets/img/".$obj->image,
+				WEB_BASE."assets/img/".$obj->image.".png",
 				$obj->votes
 			);
 		}
@@ -77,7 +82,7 @@
 	class Load {
 		public function pic($obj)
 		{
-			echo "<img src='".BASE.$obj->image."' />";
+			echo "<img src='".$obj->image."' />";
 		}
 		public function name($obj)
 		{
@@ -94,6 +99,10 @@
 		public function id($obj)
 		{
 			echo $obj->id;
+		}
+		public function link($obj)
+		{
+			echo str_replace(' ', '-', strtolower($obj->name));
 		}
 
 	}

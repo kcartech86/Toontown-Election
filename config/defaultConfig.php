@@ -19,5 +19,5 @@ $candidates = array();
 
 while($single = $all->fetch(PDO::FETCH_OBJ)) 
 {
-	$candidates[] = new Candidate(null, $single->id, $single->name, $single->message, "/assets/img/".$single->image, $single->votes);
+	$candidates[] = new Candidate(null, $single->id, $single->name, $single->message, WEB_BASE."assets/img/".$single->image.".png", $single->votes);
 }

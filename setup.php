@@ -80,11 +80,11 @@ $queryArray[] = array("INSERT INTO  `candidates` (
 	`image`
 	)
 	VALUES (
-		NULL ,  'Finn and Jake',  'This rough and tumble team are ready to be your mayor. They''ll be ready for adventure at any time.',  'adventure_time.jpg'
+		NULL ,  'Finn and Jake',  'This rough and tumble team are ready to be your mayor. They''ll be ready for adventure at any time.',  'adventure_time'
 		), (
-		NULL ,  'Tommy Pickles',  'Tommy will make sure there is milk in every bottle and a screwdriver in every diaper.',  'Tommy.jpg'
+		NULL ,  'Tommy Pickles',  'Tommy will make sure there is milk in every bottle and a screwdriver in every diaper.',  'tommy'
 		), (
-		NULL ,  'Darkwing Duck',  'Just remember, when there''s trouble, you call DW',  'darkwing_duck.jpg'
+		NULL ,  'Darkwing Duck',  'Just remember, when there''s trouble, you call DW',  'darkwing_duck'
 	);", "Candidates table populated");
 
 $queryArray[] = array("CREATE TABLE IF NOT EXISTS `votes` (
@@ -126,7 +126,7 @@ echo "</ul>";
 
 ?>
 
-	<p id="loader" class="hidden"><img src="<?php echo BASE; ?>assets/img/ajax-loader.gif" /></p>
+	<p id="loader" class="hidden"><img src="<?php echo WEB_BASE; ?>assets/img/ajax-loader.gif" /></p>
 
 	</body>
 
