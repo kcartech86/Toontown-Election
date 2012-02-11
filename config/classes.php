@@ -5,15 +5,21 @@
 		public $message;
 		public $image;
 		public $votes;
+		public $db;
 
-		public function __construct($db='', $id=0, $name='', $message='', $image='', $votes='')
+		public function __construct($id=0, $name='', $message='', $image='', $votes='')
 		{
-			$this->db      = $db;
 			$this->id      = $id;
 			$this->name    = $name;
 			$this->message = $message;
-			$this->image   = $image;
+			$this->image   = WEB_BASE."assets/img/".$image.".png";
 			$this->votes   = $votes;
+			$this->link    = str_replace(' ', '-', strtolower($name));
+			$this->db      = '';
+		}
+		public function loadDb($database)
+		{
+			$this->db = $database;
 		}
 		public function getInfo($find) 
 		{
@@ -29,11 +35,10 @@
 			$obj = $result->fetch(PDO::FETCH_OBJ);
 
 			$this->__construct(
-				null,
 				$obj->id,
 				$obj->name,
 				$obj->message,
-				WEB_BASE."assets/img/".$obj->image.".png",
+				$obj->image,
 				$obj->votes
 			);
 		}
@@ -80,29 +85,23 @@
 	}
 
 	class Load {
-		public function pic($obj)
-		{
-			echo "<img src='".$obj->image."' />";
+		public static function __callStatic($name, $arguments)
+	    {
+			$obj = $arguments[0];
+			if($obj->$name)
+			{
+				if($name == 'image')
+				{
+					echo "<img src='".$obj->$name."' />";
+				}
+				else
+				{
+					echo $obj->$name;
+				}
+			}
+			else
+			{
+				echo "<h1>WARNING: Class \"<strong>".get_class($obj)."\"</strong> has no parameter \"<strong>".$name."</strong>\"!</h1>.";
+			}
 		}
-		public function name($obj)
-		{
-			echo $obj->name;
-		}
-		public function message($obj)
-		{
-			echo $obj->message;
-		}
-		public function votes($obj)
-		{
-			echo $obj->votes;
-		}
-		public function id($obj)
-		{
-			echo $obj->id;
-		}
-		public function link($obj)
-		{
-			echo str_replace(' ', '-', strtolower($obj->name));
-		}
-
 	}
