@@ -4,23 +4,43 @@
 	$parameter = $_GET['parameter'];
 
 	$ifilter = array();
-	foreach($_POST['input'] as $key => $name)
+	if($_POST['input'])
 	{
-		$ifilter[$key] = $name;
+		foreach($_POST['input'] as $key => $name)
+		{
+			$ifilter[$key] = $name;
+		}
 	}
 
 	if($class == 'candidate')
 	{
 		$candidate->getInfo($ifilter['find']);
-		if($parameter == 'all') {
+		if($parameter == 'info') {
 			$candidateArray = array();
 
 			$candidateArray['id']      = $candidate->id;
 			$candidateArray['name']    = $candidate->name;
 			$candidateArray['message'] = $candidate->message;
 			$candidateArray['image']   = $candidate->image;
+			$candidateArray['icon']    = $candidate->icon;
 			$candidateArray['votes']   = $candidate->votes;
 
+			echo json_encode($candidateArray);
+		}
+		else if($parameter = 'all')
+		{
+			$candidateArray = array();
+			foreach($candidates as $item)
+			{
+				$candidateArray[] = array(
+					'id'      => $item->id, 
+					'name'    => $item->name, 
+					'message' => $item->message, 
+					'image'   => $item->image, 
+					'icon'    => $item->icon, 
+					'votes'   => $item->votes
+				);
+			}
 			echo json_encode($candidateArray);
 		}
 		else
