@@ -13,6 +13,7 @@
 			$this->name    = $name;
 			$this->message = $message;
 			$this->image   = WEB_BASE."assets/img/".$image.".png";
+			$this->icon    = WEB_BASE."assets/img/".$image."_icon.png";
 			$this->votes   = $votes;
 			$this->link    = str_replace(' ', '-', strtolower($name));
 			$this->db      = '';
@@ -90,7 +91,7 @@
 			$obj = $arguments[0];
 			if($obj->$name)
 			{
-				if($name == 'image')
+				if($name == 'image' || $name == 'icon')
 				{
 					echo "<img src='".$obj->$name."' />";
 				}
