@@ -21,11 +21,26 @@ __This code checks to see if the user has voted or not.__
 $.post('/api/vote/check/', { voter : votes}, function(data) {  
 	_//data.success = true if they've voted, false if they haven't._  
 }, "json");  
-  
-__This code removes the users vote to the database.__  
-$.post('/api/vote/remove/', { voter : votes}, function(data) {  
-	_//data.success = returns true no matter what._  
+
+## API Calls for Candidates ##
+
+__The following assumes that the voters information is set up as follows...__  
+
+var input  = new Object;  
+input.find   = "Darkwing Duck"; _//Can also be the id number OR lowercase with dashes ("darkwing-duck") _
+    
+__This code returns the candidates info (can return single item with '/api/find/cadidate/id').__  
+$.post('/api/find/cadidate/', { voter : votes}, function(candidate) {  
+  _//candidate will be an object with all the candidates information. (like candidate.name)_ 
 }, "json");
+
+
+
+
+$.post('/api/vote/remove/', { voter : votes}, function(data) {  
+  _//data.success = returns true no matter what._  
+}, "json");
+
 
 ## Pre-defined Variables ##
   
