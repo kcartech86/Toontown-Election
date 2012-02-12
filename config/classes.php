@@ -89,7 +89,7 @@
 		public static function __callStatic($name, $arguments)
 	    {
 			$obj = $arguments[0];
-			if($obj->$name)
+			if($obj->$name != null)
 			{
 				if($name == 'image' || $name == 'icon')
 				{

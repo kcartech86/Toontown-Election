@@ -22,6 +22,10 @@ $.post('/api/vote/check/', { voter : votes}, function(data) {
 	_//data.success = true if they've voted, false if they haven't._  
 }, "json");  
 
+$.post('/api/vote/remove/', { voter : votes}, function(data) {  
+  _//data.success = returns true no matter what._  
+}, "json");
+
 ## API Calls for Candidates ##
 
 __The following assumes that the voters information is set up as follows...__  
@@ -29,16 +33,9 @@ __The following assumes that the voters information is set up as follows...__
 var input  = new Object;  
 input.find   = "Darkwing Duck"; _//Can also be the id number OR lowercase with dashes ("darkwing-duck") _
     
-__This code returns the candidates info (can return single item with '/api/find/cadidate/id').__  
-$.post('/api/find/cadidate/', { voter : votes}, function(candidate) {  
+__This code returns all the candidates info (can return single item with '/api/find/cadidate/id').__  
+$.post('/api/find/candidate/info', { 'input' : input}, function(candidate) {  
   _//candidate will be an object with all the candidates information. (like candidate.name)_ 
-}, "json");
-
-
-
-
-$.post('/api/vote/remove/', { voter : votes}, function(data) {  
-  _//data.success = returns true no matter what._  
 }, "json");
 
 
@@ -51,10 +48,18 @@ __$candidates__ is an array that holds all the candidates. So to loop through th
   	echo $candidate->id . "&lt;br /&gt;";                 //Candidates id  
   	echo $candidate->name . "&lt;br /&gt;";               //Name of candidate  
   	echo $candidate->message . "&lt;br /&gt;";            //Candidates campaign message  
-  	echo $candidate->image . "&lt;br /&gt;&lt;br /&gt;";  //Candidates image location  
+    echo $candidate->image . "&lt;br /&gt;&lt;br /&gt;";  //Candidates image location  
+    echo $candidate->icon . "&lt;br /&gt;&lt;br /&gt;";   //Candidates icon location  
   	echo $candidate->votes . "&lt;br /&gt;&lt;br /&gt;";  //Candidates number of votes  
   }  
    
 __$candidate__ is an object that will do the same as above for a single candidate by calling the following:  
   
-  $candidate->getInfo(1); //This will get Finn and Jake since they're id 1. 2 is Tommy Pickles and 3 is Darkwing Duck.  
+  $candidate->getInfo(1); //This will get Finn and Jake since they're id 1. 2 is Tommy Pickles and 3 is Darkwing Duck.
+
+  You can also use $candidate->getInfo("Darkwing Duck") or $candidate->getInfo('tommy-pickles').
+
+__Load__ is a class that will load and echo an objects parameters:
+  
+  <?php Load::id($candidate); ?> will echo the candidates id.
+  <?php Load::image($candidate); ?> will echo the candidates image, already wrapped in an image tag.
