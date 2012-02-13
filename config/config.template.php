@@ -7,7 +7,8 @@
 
 define(BASE, preg_replace('/\/[^\/]+$/', '', dirname(__FILE__))."/"); //Use this if you DON'T know the absolute path
 // define(BASE, "/absolute/path/to/app/");                            //Use this if you DO know the absolute path.
-
+ define(WEB_BASE, "/");                            //Base to be used on things that aren't called by the server (like images);
+ 
 $host     = 'localhost'; //localhost is the default.
 $dbname   = ''; //The name of the database to use for the toon project.
 $user     = ''; //The name of the user with privleges to this database. (default is usually 'root')
