@@ -40,7 +40,7 @@ $.post('/api/find/candidate/info', { 'input' : input}, function(candidate) {
 
 __This code returns the info for ALL the candidates in an array__  
 $.post('/api/find/candidate/all' function(candidates) {  
-  _//candidates will be an array with candidates objects_ 
+  _//candidates will be an array with candidates objects_  
 }, "json");
 
 ## Pre-defined Variables ##
