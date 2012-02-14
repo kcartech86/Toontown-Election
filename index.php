@@ -14,7 +14,7 @@
     		<li>ID: <?php Load::id($candidates[0]); ?></li>
     	</ul>
     	<p><?php Load::message($candidates[0]); ?></p>
-    	<p><?php Load::pic($candidates[0]);?></p>
+    	<p><?php Load::image($candidates[0]);?></p>
     </div>
 
 </body>
