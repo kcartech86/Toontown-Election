@@ -11,7 +11,6 @@
 			$ifilter[$key] = $name;
 		}
 	}
-
 	if($class == 'candidate')
 	{
 		$candidate->getInfo($ifilter['find']);
@@ -27,7 +26,7 @@
 
 			echo json_encode($candidateArray);
 		}
-		else if($parameter = 'all')
+		else if($parameter == 'all')
 		{
 			$candidateArray = array();
 			foreach($candidates as $item)
@@ -46,6 +45,21 @@
 		else
 		{
 			echo json_encode($candidate->$parameter);
+		}
+	}
+	else if ($class == 'candidate/all')
+	{
+		if($parameter == 'votes')
+		{
+			$candidateArray = array();
+			foreach($candidates as $item)
+			{
+				$candidateArray[] = array(
+					'id'      => $item->id, 
+					'votes'   => $item->votes
+				);
+			}
+			echo json_encode($candidateArray);
 		}
 	}
 	else if($class == 'voter')
