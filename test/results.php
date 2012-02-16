@@ -6,7 +6,7 @@
 	
 	<head>
 
-	<title>Database Setup</title>
+	<title>Voting Results</title>
 	<style type="text/css">
 		ul {
 			margin: 0;
@@ -61,6 +61,17 @@
 		candidate["tommy-pickles"] = 0;
 		candidate["darkwing-duck"] = 0;
 
+		function counter(cap)
+		{
+			var count = parseInt($('#totals').html());
+			if(count < cap)
+			{
+				count++;
+				$('#totals').html(count);
+				setTimeout(function() { counter(cap); }, 50);
+			}
+		}
+
 		function change(candidate) {
 			//$.post('/api/find/candidate/all/votes/', function(candidate) {
 	
@@ -88,6 +99,7 @@
 
 				for (i in candidate)
 				{
+					counter(fullAmount);
 					var obj = $('#'+i);
 					if(percent[i] != parseInt($(obj).children("li").children('div').children('.percent').html()))
 					{	
@@ -98,7 +110,7 @@
 						{
 							step: function(now, fx) {
 								$(fx.elem).parent().children('.percent').html(Math.round(now)+"%");
-						 	}   
+						 	}
 						},
 						500);
 					}
@@ -123,7 +135,7 @@
 			</li>
 		<?php } ?>
 		</ul>
-
+		<p>Votes: <span id="totals">0</span></p>
 	</body>
 
 </html>
