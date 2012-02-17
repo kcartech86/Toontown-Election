@@ -55,7 +55,7 @@
 			foreach($candidates as $item)
 			{
 				$candidateArray[] = array(
-					'id'      => $item->id, 
+					'name'    => $item->link, 
 					'votes'   => $item->votes
 				);
 			}

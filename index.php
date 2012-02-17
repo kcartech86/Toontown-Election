@@ -13,20 +13,79 @@
 <script type="text/javascript">
 
 var voter = {};
+function counter(cap)
+{
+	var count = parseInt($('#totals').html());
+	if(count < cap)
+	{
+		count++;
+		$('#totals').html(count);
+		setTimeout(function() { counter(cap); }, 50);
+	}
+}
+
+function change() {
+	$.post('/api/find/candidate/all/votes/', function(candidate) {		
+		var fullAmount = 0;
+
+		for(i in candidate)
+		{
+			fullAmount += parseInt(candidate[i].votes);
+		}
+
+		var percent = new Array();
+		var element = new Array();
+
+		for(i in candidate)
+		{
+			if(fullAmount != 0)
+			{
+				percent[i] = Math.round((candidate[i].votes/fullAmount)*100);
+			}
+			else
+			{
+				percent[i] = 0;
+			}
+		}
+
+		for (i in candidate)
+		{
+			counter(fullAmount);
+			var obj = $('#'+candidate[i].name);
+			if(percent[i] != parseInt($(obj).children("li").children('div').children('.percent').html()))
+			{	
+				$(obj).children("li").children('div').children(".votes").animate({
+					width: percent[i]+"%"
+				}, 
+				{
+					step: function(now, fx) {
+						$(fx.elem).parent().children('.percent').html(Math.round(now)+"%");
+				 	}
+				},
+				500);
+			}
+		}
+	}, "json");
+	
+}
+
+
 
 $(document).ready(function() {
-	$("#voterIdSubmit").tap(function() {
+	$("#voterIdSubmit").tap(function(e) {
+		e.preventDefault();
 		var voterId = $("#voterId").val();
+		voter.id = voterId;
 		if(voterId.match(/^[0-9]+$/) && voterId > 1000 && voterId < 1050)
 		{
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
+				console.log(data);
 				if(data.success)
 				{
 					alert("You've already voted!");
 				}
 				else
 				{
-					voter.id = voterId;
 					$.mobile.changePage( "#two" );			
 				}
 			}, "json");
@@ -35,9 +94,9 @@ $(document).ready(function() {
 		{
 			alert("The only valid voter numbers are 1001 - 1049")
 		}
-		return false;
 	});
-	$('.candidateLink').tap(function() {
+	$('.candidateLink').tap(function(e) {
+		e.preventDefault();
 		var input = {};
 		input.find = $(this).attr("data-candidate");
 	    $.post('/api/find/candidate/info/', { 'input' : input}, function(candidate) {  
@@ -46,9 +105,9 @@ $(document).ready(function() {
 	        $('#about-content #statement').html(candidate.message);
 	        $('#about-content #image').attr('src', candidate.image);
 	        $('#about-content li').html('Votes: '+candidate.votes);
+	        $('#about-header h1').html("About "+candidate.name);
 			$.mobile.changePage( "#about" );	
 	    }, "json");
-	    return false;
 	});
 	$('#castVote').tap(function(e) {
 		e.preventDefault();
@@ -57,8 +116,12 @@ $(document).ready(function() {
             //If the vote has been successfully cast, send them to the voted page.
             if(data.success)
             {
-				$.mobile.changePage( "#results", { transition: "slideDown"} );	
-
+				$.mobile.changePage( "#results", { transition: "slidedown"} );
+				if(timer)
+				{
+					clearInterval(timer);
+				}
+				var timer = setInterval(change, 1000);
             }
             //An extra check to make sure they haven't voted yet, just to be sure.
             else
@@ -67,6 +130,10 @@ $(document).ready(function() {
             }
         }, "json");    
 	});
+	if(window.location.hash != '')
+	{
+		window.location = "/"
+	}
 });
 
 </script>
@@ -131,12 +198,9 @@ $(document).ready(function() {
 	<div data-role="content" >
 	<p>Welcome to the Toon-town election! Please enter your Voter ID number to continue:</p>
 	<input type="text" id="voterId" />
-	<a data-role="button" id="voterIdSubmit" href="#two">Continue</a>
+	<a data-role="button" data-ajax="false" id="voterIdSubmit" href="#two">Continue</a>
 	</div><!-- /content -->
 	
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div><!-- /page one -->
 
 
@@ -147,21 +211,18 @@ $(document).ready(function() {
 	</div><!-- /header -->
 	<ul data-role="listview" data-theme="g">
 		<?php foreach ($candidates as $runner) { ?>
-		<li><a class="candidateLink" data-candidate="<?php Load::link($runner); ?>" href="#about"><?php Load::icon($runner); ?> <?php Load::name($runner); ?></a></li>
+		<li><a class="candidateLink" data-ajax="false" data-candidate="<?php Load::link($runner); ?>" href="#about"><?php Load::icon($runner); ?> <?php Load::name($runner); ?></a></li>
 		<?php } ?>
 	</ul>
 	<p><a data-role="button" href="#vote">Continue on to Cast Your Vote</a></p>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div><!-- /page two -->
 
 
 <!-- Start of third page: #popup -->
 <div data-role="page" id="about">
-
-	<div data-role="header">
-		<h1>Dialog</h1>
+	<div data-role="header" id="about-header">
+		<a data-direction="reverse" data-role="button" data-icon="back" href="#two">Back</a>
+		<h1></h1>
 	</div><!-- /header -->
 
 	<div data-role="content" id="about-content">	
@@ -171,12 +232,8 @@ $(document).ready(function() {
 	    <ul>
 	        <li></li>
 	    </ul>
-	    <p><a data-direction="reverse" data-role="button" href="#two">Back</a></p>
 	</div><!-- /content -->
 	
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div><!-- /page popup -->
 <div data-role="page" id="vote">
 
@@ -193,33 +250,28 @@ $(document).ready(function() {
 					<label for="checkbox-<?php echo $count; ?>"><?php Load::icon($running); ?> Vote For <?php Load::name($running); ?></label>
 					<?php $count++; } ?>
 		</div>
-		<p><a id="castVote" data-role="button">Click to Cast Your Vote</a></p>
+		<p><a id="castVote" data-ajax="false"  data-role="button">Click to Cast Your Vote</a></p>
 	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div><!-- /page popup -->
 <div data-role="page" id="results">
 
 	<div data-role="header">
-		<h1>Cast Your Vote</h1>
+		<h1>Voting Results</h1>
 	</div><!-- /header -->
 
-	<div data-role="content">				
-		<ul>
-		<?php foreach($candidates as $name) { ?>
-			<li>
-				<ul id="<?php Load::link($name); ?>" class="candidate">
-					<li><?php Load::icon($name); ?>
-					<div class="inline"><span class="percent">0%</span> <span class="votes"></span></div>
-				</ul>
-			</li>
-		<?php } ?>
-		</ul>
+	<div data-role="content">
+			<ul>
+			<?php foreach($candidates as $name) { ?>
+				<li>
+					<ul id="<?php Load::link($name); ?>" class="candidate">
+						<li><?php Load::icon($name); ?>
+						<div class="inline"><span class="percent">0%</span> <span class="votes"></span></div>
+					</ul>
+				</li>
+			<?php } ?>
+			</ul>
+		<p>Votes: <span id="totals">0</span></p>
 	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div>
 </body>
 </html>
