@@ -101,7 +101,6 @@ $(document).ready(function() {
 		input.find = $(this).attr("data-candidate");
 	    $.post('/api/find/candidate/info/', { 'input' : input}, function(candidate) {  
 	        //The candidate variable will have all the candidates info in it.
-	        $('#about-content h2').html(candidate.id+": "+candidate.name);
 	        $('#about-content #statement').html(candidate.message);
 	        $('#about-content #image').attr('src', candidate.image);
 	        $('#about-content li').html('Votes: '+candidate.votes);
@@ -182,7 +181,13 @@ $(document).ready(function() {
 		display: block;
 		vertical-align: 0px;
 	}
-
+	#about-content
+	{
+		text-align: center;
+	}
+	#about-content li {
+		list-style: none;
+	}
 </style>
 
 </head>
@@ -226,7 +231,6 @@ $(document).ready(function() {
 	</div><!-- /header -->
 
 	<div data-role="content" id="about-content">	
-	    <h2></h2>
 	    <img id="image">
 	    <p id="statement"></p>
 	    <ul>
