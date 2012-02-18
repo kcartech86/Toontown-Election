@@ -81,7 +81,16 @@ $(document).ready(function() {
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
 				if(data.success)
 				{
-					alert("You've already voted!");
+					$.mobile.changePage( "#results", { transition: "slidedown"} );
+					if(timer)
+					{
+						clearInterval(timer);
+						var timer = setInterval(change, 1000);
+					}
+					else
+					{
+						var timer = setInterval(change, 1000);
+					}
 				}
 				else
 				{
