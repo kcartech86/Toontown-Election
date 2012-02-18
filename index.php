@@ -87,7 +87,7 @@ $(document).ready(function() {
 		{
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
 				$('.voterIdNum').each(function() {
-					$(this).html("(Voter ID: "+voter.id+")");
+					$(this).html("(ID: "+voter.id+")");
 				});
 				if(data.success)
 				{
@@ -122,7 +122,7 @@ $(document).ready(function() {
 	        $('#about-content #statement').html(candidate.message);
 	        $('#about-content #image').attr('src', candidate.image);
 	        $('#about-content li').html('Votes: '+candidate.votes);
-	        $('#about-header h1').html("About "+candidate.name+"  <span class='voterIdNum'>(Voter ID: "+voter.id+")</span>");
+	        $('#about-header h1').html("About "+candidate.name+"  <span class='voterIdNum'>(ID: "+voter.id+")</span>");
 			$.mobile.changePage( "#about" );	
 	    }, "json");
 	});
