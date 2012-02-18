@@ -87,7 +87,7 @@ $(document).ready(function() {
 		{
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
 				$('.voterIdNum').each(function() {
-					$(this).html("(ID: "+voter.id+")");
+					$(this).html("Voter ID: "+voter.id+"");
 				});
 				if(data.success)
 				{
@@ -122,34 +122,41 @@ $(document).ready(function() {
 	        $('#about-content #statement').html(candidate.message);
 	        $('#about-content #image').attr('src', candidate.image);
 	        $('#about-content li').html('Votes: '+candidate.votes);
-	        $('#about-header h1').html("About "+candidate.name+"  <span class='voterIdNum'>(ID: "+voter.id+")</span>");
+	        $('#about-header h1').html("About "+candidate.name);
 			$.mobile.changePage( "#about" );	
 	    }, "json");
 	});
 	$('#castVote').tap(function(e) {
 		e.preventDefault();
-		voter.vote = $("#ballot").find("input:checked").attr("value")
-       $.post('/api/vote/add/', { 'voter' : voter }, function(data) {
-            //If the vote has been successfully cast, send them to the voted page.
-            if(data.success)
-            {
-				$.mobile.changePage( "#results", { transition: "slidedown"} );
-				if(timer)
-				{
-					clearInterval(timer);
-					var timer = setInterval(change, 1000);
-				}
-				else
-				{
-					var timer = setInterval(change, 1000);
-				}
-            }
-            //An extra check to make sure they haven't voted yet, just to be sure.
-            else
-            {
-                alert("You've already voted");
-            }
-        }, "json");    
+		voter.vote = $("#ballot").find("input:checked").attr("value");
+       if(voter.vote != undefined)
+       {
+	       $.post('/api/vote/add/', { 'voter' : voter }, function(data) {
+	            //If the vote has been successfully cast, send them to the voted page.
+	            if(data.success)
+	            {
+					$.mobile.changePage( "#results", { transition: "slidedown"} );
+					if(timer)
+					{
+						clearInterval(timer);
+						var timer = setInterval(change, 1000);
+					}
+					else
+					{
+						var timer = setInterval(change, 1000);
+					}
+	            }
+	            //An extra check to make sure they haven't voted yet, just to be sure.
+	            else
+	            {
+	                alert("You've already voted");
+	            }
+	        }, "json");    
+	   	}
+	   	else
+	   	{
+	   		alert('You must choose a candidate.')
+	   	}
 	});
 	$('#deleteVote').tap(function() {
        $.post('/api/vote/remove/', { 'voter' : voter}, function() {
@@ -222,7 +229,7 @@ $(document).ready(function() {
 <div data-role="page" id="one">
 
 	<div data-role="header">
-		<h1>Toon-town Election</h1>
+		<h1>Sign In</h1>
 	</div><!-- /header -->
 
 	<div data-role="content" >
@@ -230,28 +237,32 @@ $(document).ready(function() {
 	<input type="text" id="voterId" />
 	<a data-role="button" data-ajax="false" id="voterIdSubmit" href="#two">Continue</a>
 	</div><!-- /content -->
-	
+	<div data-role="footer" data-id="voter" data-position="fixed">
+		<h4 class="voterIdNum">Toon-town Election</h4>
+	</div><!-- /footer -->	
 </div><!-- /page one -->
 
 
 <!-- Start of second page: #two -->
 <div data-role="page" id="two">	
-	<div data-role="header">
-		<h1>About Each Candidate <span class="voterIdNum"></span></h1>
+	<div data-role="header" data-position="fixed">
+		<h1>About Each Candidate</h1>
 	</div><!-- /header -->
-	<p class="voter"></p>
 	<ul data-role="listview" data-theme="g">
 		<?php foreach ($candidates as $runner) { ?>
 		<li><a class="candidateLink" data-ajax="false" data-candidate="<?php Load::link($runner); ?>" href="#about"><?php Load::icon($runner); ?> <?php Load::name($runner); ?></a></li>
 		<?php } ?>
 	</ul>
 	<p><a data-role="button" href="#vote">Continue on to Cast Your Vote</a></p>
+	<div data-role="footer" data-id="voter" data-position="fixed">
+		<h4 class="voterIdNum"></h4>
+	</div><!-- /footer -->
 </div><!-- /page two -->
 
 
 <!-- Start of third page: #popup -->
 <div data-role="page" id="about">
-	<div data-role="header" id="about-header">
+	<div data-role="header" id="about-header" data-position="fixed">
 		<a data-direction="reverse" data-role="button" data-icon="back" href="#two">Back</a>
 		<h1></h1>
 	</div><!-- /header -->
@@ -263,11 +274,13 @@ $(document).ready(function() {
 	        <li></li>
 	    </ul>
 	</div><!-- /content -->
-	
+	<div data-role="footer" data-id="voter" data-position="fixed">
+		<h4 class="voterIdNum"></h4>
+	</div><!-- /footer -->
 </div><!-- /page popup -->
 <div data-role="page" id="vote">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		<h1>Cast Your Vote <span class="voterIdNum"></span></h1>
 	</div><!-- /header -->
 
@@ -282,11 +295,14 @@ $(document).ready(function() {
 		</div>
 		<p><a id="castVote" data-ajax="false"  data-role="button">Click to Cast Your Vote</a></p>
 	</div>
+	<div data-role="footer" data-id="voter" data-position="fixed">
+		<h4 class="voterIdNum"></h4>
+	</div><!-- /footer -->
 </div><!-- /page popup -->
 <div data-role="page" id="results">
 
-	<div data-role="header">
-		<h1>Voting Results  <span class="voterIdNum"></span></h1>
+	<div data-role="header" data-position="fixed">
+		<h1>Voting Results</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -305,6 +321,9 @@ $(document).ready(function() {
 			<p><a href="#" id="deleteVote" data-role="button" data-icon="delete" id="deleteVote">Delete My Vote</a></p>
 		</div>
 	</div>
+	<div data-role="footer" data-id="voter" data-position="fixed">
+		<h4 class="voterIdNum"></h4>
+	</div><!-- /footer -->
 </div>
 </body>
 </html>
