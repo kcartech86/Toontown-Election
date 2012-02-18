@@ -192,7 +192,7 @@ $(document).ready(function() {
 	{
 		padding: 0;
 		margin-top: -10px;
-		width: 90%;
+		width: 85%;
 		display: inline-block;
 	}
 	#results div .percent
@@ -214,7 +214,7 @@ $(document).ready(function() {
 		list-style: none;
 	}
 	.icon img {
-		width: 9%;
+		width: 15%;
 	}
 </style>
 
