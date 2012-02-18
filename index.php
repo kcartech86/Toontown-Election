@@ -192,7 +192,7 @@ $(document).ready(function() {
 	{
 		padding: 0;
 		margin-top: -10px;
-		width: 85%;
+		width: 80%;
 		display: inline-block;
 	}
 	#results div .percent
