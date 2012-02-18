@@ -1,13 +1,14 @@
 <?php require_once("config/config.php"); ?>
 
-<!DOCTYPE html> 
-<html class="ui-mobile-rendering"> 
-
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/themes/toon.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile.structure-1.0.1.min.css" /> 
 <title>Toon-town Mayoral Election</title>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 <script type="text/javascript">
@@ -64,10 +65,10 @@ function change() {
 				}, 
 				{
 					step: function(now, fx) {
-						$(fx.elem).parent().children('.percent').html(Math.round(now)+"%");
+						$(fx.elem).parent().children('.percent').width(Math.round(now)+"%").html(Math.round(now)+"%");
 				 	}
 				},
-				500);
+				1000);
 			}
 		}
 		counter(fullAmount);
@@ -174,30 +175,24 @@ $(document).ready(function() {
 	}
 	#results div .votes {
 		display: inline-block;
-		height: 10px;
-		background: #f00;
+		height: 50px;
 		width: 1%;
 		border-radius: 10px;
-		background-image: linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-		background-image: -o-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-		background-image: -moz-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-		background-image: -webkit-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-		background-image: -ms-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
 
-		background-image: -webkit-gradient(
-			linear,
-			left bottom,
-			left top,
-			color-stop(0.26, rgb(196,27,8)),
-			color-stop(0.63, rgb(227,52,32)),
-			color-stop(0.82, rgb(232,49,21))
-		);
+		background: #113D69 /*{a-bar-background-color}*/;
+		background-image: -webkit-gradient(linear, left top, left bottom, from( #175593 /*{a-bar-background-start}*/), to( #0A243F /*{a-bar-background-end}*/));
+		background-image: -webkit-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+		background-image: -moz-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+		background-image: -ms-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+		background-image: -o-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+		background-image: linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+		border-image: initial;			);
 	}
 	#results div .inline
 	{
 		padding: 0;
 		margin-top: -10px;
-		width: 200px;
+		width: 90%;
 		display: inline-block;
 	}
 	#results div .percent
@@ -206,6 +201,10 @@ $(document).ready(function() {
 		margin: 0;
 		display: block;
 		vertical-align: 0px;
+		font-weight: bold;
+		font-size: 1.4em;
+		width: 30px;
+		text-align: right;
 	}
 	#about-content
 	{
