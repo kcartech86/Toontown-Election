@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
-<title>Project 02</title>
+<title>Toon-town Mayoral Election</title>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
@@ -79,14 +79,16 @@ $(document).ready(function() {
 		if(voterId.match(/^[0-9]+$/) && voterId > 1000 && voterId < 1050)
 		{
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
-				console.log(data);
 				if(data.success)
 				{
 					alert("You've already voted!");
 				}
 				else
 				{
-					$.mobile.changePage( "#two" );			
+					$('.voterIdNum').each(function() {
+						$(this).html("(Voter ID: "+voter.id+")");
+					});
+					$.mobile.changePage("#two");			
 				}
 			}, "json");
 		}
@@ -104,7 +106,7 @@ $(document).ready(function() {
 	        $('#about-content #statement').html(candidate.message);
 	        $('#about-content #image').attr('src', candidate.image);
 	        $('#about-content li').html('Votes: '+candidate.votes);
-	        $('#about-header h1').html("About "+candidate.name);
+	        $('#about-header h1').html("About "+candidate.name+"  <span class='voterIdNum'>(Voter ID: "+voter.id+")</span>");
 			$.mobile.changePage( "#about" );	
 	    }, "json");
 	});
@@ -119,8 +121,12 @@ $(document).ready(function() {
 				if(timer)
 				{
 					clearInterval(timer);
+					var timer = setInterval(change, 1000);
 				}
-				var timer = setInterval(change, 1000);
+				else
+				{
+					var timer = setInterval(change, 1000);
+				}
             }
             //An extra check to make sure they haven't voted yet, just to be sure.
             else
@@ -128,6 +134,12 @@ $(document).ready(function() {
                 alert("You've already voted");
             }
         }, "json");    
+	});
+	$('#deleteVote').tap(function() {
+       $.post('/api/vote/remove/', { 'voter' : voter}, function() {
+			alert('Your vote has been deleted');
+			$.mobile.changePage( "#two" );			
+       });
 	});
 	if(window.location.hash != '')
 	{
@@ -143,7 +155,6 @@ $(document).ready(function() {
 	}
 	#results div ul li {
 		list-style: none;
-		height: 50px;
 		margin: 10px;
 	}
 	#results div .votes {
@@ -212,8 +223,9 @@ $(document).ready(function() {
 <!-- Start of second page: #two -->
 <div data-role="page" id="two">	
 	<div data-role="header">
-		<h1>About Each Candidate</h1>
+		<h1>About Each Candidate <span class="voterIdNum"></span></h1>
 	</div><!-- /header -->
+	<p class="voter"></p>
 	<ul data-role="listview" data-theme="g">
 		<?php foreach ($candidates as $runner) { ?>
 		<li><a class="candidateLink" data-ajax="false" data-candidate="<?php Load::link($runner); ?>" href="#about"><?php Load::icon($runner); ?> <?php Load::name($runner); ?></a></li>
@@ -242,7 +254,7 @@ $(document).ready(function() {
 <div data-role="page" id="vote">
 
 	<div data-role="header">
-		<h1>Cast Your Vote</h1>
+		<h1>Cast Your Vote <span class="voterIdNum"></span></h1>
 	</div><!-- /header -->
 
 	<div data-role="content">				
@@ -250,8 +262,8 @@ $(document).ready(function() {
 					<?php 
 						$count = 0;
 						foreach($candidates as $running) { ?>
-					<input type="radio" name="voter" id="checkbox-<?php echo $count; ?>" class="custom" value="<?php Load::id($running); ?>" />
-					<label for="checkbox-<?php echo $count; ?>"><?php Load::icon($running); ?> Vote For <?php Load::name($running); ?></label>
+					<input type="radio" name="voter" data-inline="true" id="checkbox-<?php echo $count; ?>" class="custom" value="<?php Load::id($running); ?>" />
+					<label for="checkbox-<?php echo $count; ?>">Vote For <?php Load::name($running); ?></label>
 					<?php $count++; } ?>
 		</div>
 		<p><a id="castVote" data-ajax="false"  data-role="button">Click to Cast Your Vote</a></p>
@@ -260,7 +272,7 @@ $(document).ready(function() {
 <div data-role="page" id="results">
 
 	<div data-role="header">
-		<h1>Voting Results</h1>
+		<h1>Voting Results  <span class="voterIdNum"></span></h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -274,7 +286,10 @@ $(document).ready(function() {
 				</li>
 			<?php } ?>
 			</ul>
-		<p>Votes: <span id="totals">0</span></p>
+		<div>
+			<p>Votes: <span id="totals">0</span></p>
+			<p><a href="#" id="deleteVote" data-role="button" data-icon="delete" id="deleteVote">Delete My Vote</a></p>
+		</div>
 	</div>
 </div>
 </body>
