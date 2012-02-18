@@ -213,6 +213,9 @@ $(document).ready(function() {
 	#about-content li {
 		list-style: none;
 	}
+	.icon img {
+		width: 9%;
+	}
 </style>
 
 </head>
@@ -294,7 +297,7 @@ $(document).ready(function() {
 			<?php foreach($candidates as $name) { ?>
 				<li>
 					<ul id="<?php Load::link($name); ?>" class="candidate">
-						<li><?php Load::icon($name); ?>
+						<li class="icon"><?php Load::icon($name); ?>
 						<div class="inline"><span class="percent">0%</span> <span class="votes"></span></div>
 					</ul>
 				</li>
