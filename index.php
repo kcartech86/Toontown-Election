@@ -22,6 +22,12 @@ function counter(cap)
 		$('#totals').html(count);
 		setTimeout(function() { counter(cap); }, 50);
 	}
+	else if(count > cap)
+	{
+		count--;
+		$('#totals').html(count);
+		setTimeout(function() { counter(cap); }, 50);
+	}
 }
 
 function change() {
@@ -50,7 +56,6 @@ function change() {
 
 		for (i in candidate)
 		{
-			counter(fullAmount);
 			var obj = $('#'+candidate[i].name);
 			if(percent[i] != parseInt($(obj).children("li").children('div').children('.percent').html()))
 			{	
@@ -65,6 +70,7 @@ function change() {
 				500);
 			}
 		}
+		counter(fullAmount);
 	}, "json");
 	
 }
