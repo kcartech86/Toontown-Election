@@ -79,6 +79,9 @@ $(document).ready(function() {
 		if(voterId.match(/^[0-9]+$/) && voterId > 1000 && voterId < 1050)
 		{
 			$.post('/api/vote/check/', { 'voter' : voter}, function(data) {
+				$('.voterIdNum').each(function() {
+					$(this).html("(Voter ID: "+voter.id+")");
+				});
 				if(data.success)
 				{
 					$.mobile.changePage( "#results", { transition: "slidedown"} );
@@ -94,9 +97,6 @@ $(document).ready(function() {
 				}
 				else
 				{
-					$('.voterIdNum').each(function() {
-						$(this).html("(Voter ID: "+voter.id+")");
-					});
 					$.mobile.changePage("#two");			
 				}
 			}, "json");
