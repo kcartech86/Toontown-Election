@@ -21,7 +21,7 @@ $candidates = array();
 
 while($single = $all->fetch(PDO::FETCH_OBJ)) 
 {
-	$count = $pdo->prepare("SELECT COUNT(vote) FROM votes WHERE vote=".$single->id);
+	$count = $pdo->prepare("SELECT COUNT(vote) FROM votes WHERE voter_id != 7531 AND vote=".$single->id);
 	$count->execute();
 
 	$count = $count->fetch();
