@@ -6,6 +6,7 @@
 	
 	<head>
 	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,900' rel='stylesheet' type='text/css'>
 
 	<title>Voting Results</title>
 	<style type="text/css">
@@ -81,11 +82,26 @@
 			top:0; 
 			margin-top:-21px; 
 		}
+		.winner
+		{
+			font-family: 'Maven Pro', sans-serif;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 6em;
+			z-index: 400;
+			color: #FFF;
+			position: absolute;
+			text-align: center;
+			display: none;
+			padding: 0;
+			margin: 0;
+		}
 
 	</style>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		var voter = {};
+		var winnerShownAlready = false;
 		function counter(cap)
 		{
 			var count = parseInt($('#totals').html());
@@ -144,7 +160,7 @@
 					}
 				}
 				counter(fullAmount);
-				if(data.showWinner == 1)
+				if(data.showWinner == 1  && winnerShownAlready == false)
 				{
 					finish();
 				}
@@ -155,6 +171,7 @@
 			var votes = new Array();
 			var winner = '';
 			var soFar = 0;
+			winnerShownAlready = true;
 			$('.percent').each(function() {
 				if(parseInt($(this).text()) > soFar)
 				{
@@ -162,6 +179,8 @@
 					winner = $(this).parent().parent().parent().attr('id');
 				}
 			});
+			$('body').prepend("<p class='winner' id='upper'>The winner is</p>");
+			$('body').prepend("<p class='winner' id='lower'>"+winner.replace(/-/g, ' ')+"</p>");
 			$(".candidates ul").each(function() {
 				if($(this).attr('id') != winner)
 				{
@@ -186,6 +205,17 @@
 						left: 20,
 						top: newTop,
 					}, 900);
+
+					$('#lower').css({ 
+						"top" : (newTop + $(this).height()),
+						"left": (($(window).width()/2) - $("#lower").width()/2),
+					});
+					$('#upper').css({ 
+						"top" : (newTop - $(this).height()),
+						"left": (($(window).width()/2) - $("#lower").width()/2) 
+					});
+					$(".winner").fadeIn(2000);
+
 				}
 			});
 		}
