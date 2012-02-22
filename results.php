@@ -180,7 +180,7 @@
 				}
 			});
 			$('body').prepend("<p class='winner' id='upper'>The winner is</p>");
-			$('body').prepend("<p class='winner' id='lower'>"+winner.replace(/-/g, ' ')+"</p>");
+			$('body').prepend("<p class='winner' id='lower'>"+winner.replace(/-/g, ' ')+" </p>");
 			$(".candidates ul").each(function() {
 				if($(this).attr('id') != winner)
 				{
@@ -231,7 +231,7 @@
 			$('#popupback').height(height);
 		}
 		$(document).ready(function() {
-			var timer = setInterval(change, 1000);
+			var timer = setInterval(change, 2000);
 		});
 	</script>
 	</head>
