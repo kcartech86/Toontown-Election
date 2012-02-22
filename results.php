@@ -5,9 +5,32 @@
 	<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	
 	<head>
+	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css' />
 
 	<title>Voting Results</title>
 	<style type="text/css">
+		body
+		{
+			font-family: 'Arimo', sans-serif;
+			width: 960px;
+			margin: 0 auto;
+		}
+		header
+		{
+			text-align: center;
+		}
+		.icon
+		{
+			border: 2px solid black;
+			padding: 10px;
+			border-radius: 10px;
+			margin: 10px;
+		}
+		p
+		{
+			font-size: 2em;
+			text-align: center;
+		}
 		ul {
 			margin: 0;
 			padding: 0;
@@ -35,7 +58,7 @@
 		{
 			padding: 0;
 			margin-top: -10px;
-			width: 200px;
+			width: 800px;
 			display: inline-block;
 		}
 		.percent
@@ -44,6 +67,19 @@
 			margin: 0;
 			display: block;
 			vertical-align: 0px;
+			font-weight: bold;
+			font-size: 1.4em;
+			width: 30px;
+			text-align: right;
+		}
+		#popupback { 
+			background:#000000; 
+			opacity:.5; 
+			z-index:10; 
+			position:fixed; 
+			left:0; 
+			top:0; 
+			margin-top:-21px; 
 		}
 
 	</style>
@@ -68,8 +104,9 @@
 		}
 
 		function change() {
-			$.post('/api/find/candidate/all/votes/', function(candidate) {		
+			$.post('/api/find/candidate/all/votes/', function(data) {
 				var fullAmount = 0;
+				var candidate = data.candidate;
 
 				for(i in candidate)
 				{
@@ -98,17 +135,70 @@
 					{	
 						$(obj).children("li").children('div').children(".votes").animate({
 							width: percent[i]+"%"
-						}, 
+						},
 						{
 							step: function(now, fx) {
 								$(fx.elem).parent().children('.percent').width(Math.round(now)+"%").html(Math.round(now)+"%");
 						 	}
-						},
-						1000);
+						});
 					}
 				}
 				counter(fullAmount);
+				if(data.showWinner == 1)
+				{
+					finish();
+				}
 			}, "json");
+		}
+		function finish()
+		{
+			var votes = new Array();
+			var winner = '';
+			var soFar = 0;
+			$('.percent').each(function() {
+				if(parseInt($(this).text()) > soFar)
+				{
+					soFar = parseInt($(this).text());
+					winner = $(this).parent().parent().parent().attr('id');
+				}
+			});
+			$(".candidates ul").each(function() {
+				if($(this).attr('id') != winner)
+				{
+					$(this).fadeTo("slow", 0.5);
+				}
+				else
+				{
+					var pos = $(this).position();
+					$(this).css({
+						'z-index' : "400", 
+						"position" : "absolute",
+						"left" : pos.left,
+						"top" : pos.top,
+					});
+					$(this).children('li').css({
+						"background" : "#fff",
+					});
+					var newTop = ($(window).height()/2) - $(this).height();
+					popUpBack();
+					$(this).animate({
+						width: $(window).width()-20,
+						left: 20,
+						top: newTop,
+					}, 900);
+				}
+			});
+		}
+		function popUpBack() {
+			width = $(document).width()+100;
+			height = $(document).height()+100;
+			
+			$('body').prepend('<div id="popupback"></div>');
+			
+			$('#popupback').hide();
+			$('#popupback').fadeIn(300);
+			$('#popupback').width(width);
+			$('#popupback').height(height);
 		}
 		$(document).ready(function() {
 			var timer = setInterval(change, 1000);
@@ -117,11 +207,15 @@
 	</head>
 
 	<body>
-		<ul>
+		<header>
+			<h1>Toontown Elections</h1>
+			<h2>Voting results</h2>
+		</header>
+		<ul class="candidates">
 		<?php foreach($candidates as $name) { ?>
 			<li>
 				<ul id="<?php Load::link($name); ?>" class="candidate">
-					<li><?php Load::icon($name); ?>
+					<li class="icon"><?php Load::icon($name); ?>
 					<div class="inline"><span class="percent">0%</span> <span class="votes"></span></div>
 				</ul>
 			</li>

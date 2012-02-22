@@ -19,24 +19,18 @@
 		}
 		.votes {
 			display: inline-block;
-			height: 10px;
-			background: #f00;
+			height: 30px;
 			width: 1%;
 			border-radius: 10px;
-			background-image: linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-			background-image: -o-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-			background-image: -moz-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-			background-image: -webkit-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
-			background-image: -ms-linear-gradient(bottom, rgb(196,27,8) 26%, rgb(227,52,32) 63%, rgb(232,49,21) 82%);
 
-			background-image: -webkit-gradient(
-				linear,
-				left bottom,
-				left top,
-				color-stop(0.26, rgb(196,27,8)),
-				color-stop(0.63, rgb(227,52,32)),
-				color-stop(0.82, rgb(232,49,21))
-			);
+			background: #113D69 /*{a-bar-background-color}*/;
+			background-image: -webkit-gradient(linear, left top, left bottom, from( #175593 /*{a-bar-background-start}*/), to( #0A243F /*{a-bar-background-end}*/));
+			background-image: -webkit-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+			background-image: -moz-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+			background-image: -ms-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+			background-image: -o-linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+			background-image: linear-gradient( #175593 /*{a-bar-background-start}*/, #0A243F /*{a-bar-background-end}*/);
+			border-image: initial;			);
 		}
 		.inline
 		{
@@ -73,8 +67,8 @@
 		}
 
 		function change(candidate) {
-			//$.post('/api/find/candidate/all/votes/', function(candidate) {
-	
+			$.post('/api/find/candidate/all/votes/', function(candidate) {
+				console.log(candidate);
 				var fullAmount = 0;
 
 				for(i in candidate)
@@ -115,7 +109,7 @@
 						500);
 					}
 				}
-			//}, "json");
+			}, "json");
 		}
 		$(document).ready(function() {
 			change(candidate);

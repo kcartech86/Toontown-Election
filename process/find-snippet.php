@@ -52,6 +52,9 @@
 		if($parameter == 'votes')
 		{
 			$candidateArray = array();
+			$winnerQuery = $pdo->prepare("SELECT vote FROM votes WHERE voter_id=7531");
+			$winnerQuery->execute();
+			$winner = $winnerQuery->fetch(PDO::FETCH_OBJ);
 			foreach($candidates as $item)
 			{
 				$candidateArray[] = array(
@@ -59,7 +62,7 @@
 					'votes'   => $item->votes
 				);
 			}
-			echo json_encode($candidateArray);
+			echo json_encode(array("candidate" => $candidateArray, "showWinner" => $winner->vote));
 		}
 	}
 	else if($class == 'voter')

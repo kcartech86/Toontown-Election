@@ -32,8 +32,9 @@ function counter(cap)
 }
 
 function change() {
-	$.post('/api/find/candidate/all/votes/', function(candidate) {		
+	$.post('/api/find/candidate/all/votes/', function(data) {		
 		var fullAmount = 0;
+		var candidate = data.candidate;
 
 		for(i in candidate)
 		{
