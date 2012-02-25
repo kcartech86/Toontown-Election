@@ -157,7 +157,6 @@
 							step: function(now, fx) {
 								$(fx.elem).parent().children('.percent').width(Math.round(now)+"%").html(Math.round(now)+"%");
 						 	},
-						 	duration: 1000,
 						 	complete: function() {
 						 		console.log('oijo');
 								if(showWinner == 1  && winnerShownAlready == false)
