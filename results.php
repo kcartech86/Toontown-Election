@@ -123,6 +123,7 @@
 			$.post('/api/find/candidate/all/votes/', function(data) {
 				var fullAmount = 0;
 				var candidate = data.candidate;
+				var showWinner = data.showWinner;
 
 				for(i in candidate)
 				{
@@ -155,15 +156,19 @@
 						{
 							step: function(now, fx) {
 								$(fx.elem).parent().children('.percent').width(Math.round(now)+"%").html(Math.round(now)+"%");
-						 	}
+						 	},
+						 	duration: 1000,
+						 	complete: function() {
+						 		console.log('oijo');
+								if(showWinner == 1  && winnerShownAlready == false)
+								{
+									finish();
+								}
+							}
 						});
 					}
 				}
 				counter(fullAmount);
-				if(data.showWinner == 1  && winnerShownAlready == false)
-				{
-					finish();
-				}
 			}, "json");
 		}
 		function finish()
@@ -204,7 +209,10 @@
 						width: $(window).width()-20,
 						left: 20,
 						top: newTop,
-					}, 900);
+					}, 
+					{
+						duration: 900,
+					});
 
 					$('#lower').css({ 
 						"top" : (newTop + $(this).height()),
