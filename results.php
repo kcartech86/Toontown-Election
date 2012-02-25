@@ -102,6 +102,7 @@
 	<script type="text/javascript">
 		var voter = {};
 		var winnerShownAlready = false;
+		var firstLoad = false;
 		function counter(cap)
 		{
 			var count = parseInt($('#totals').html());
@@ -123,7 +124,6 @@
 			$.post('/api/find/candidate/all/votes/', function(data) {
 				var fullAmount = 0;
 				var candidate = data.candidate;
-				var showWinner = data.showWinner;
 
 				for(i in candidate)
 				{
@@ -157,17 +157,18 @@
 							step: function(now, fx) {
 								$(fx.elem).parent().children('.percent').width(Math.round(now)+"%").html(Math.round(now)+"%");
 						 	},
-						 	complete: function() {
-						 		console.log('oijo');
-								if(showWinner == 1  && winnerShownAlready == false)
-								{
-									finish();
-								}
-							}
+						 	complete: function()
+						 	{
+						 		firstLoad = true;
+						 	}
 						});
 					}
 				}
 				counter(fullAmount);
+				if(data.showWinner == 1  && winnerShownAlready == false && firstLoad == true)
+				{
+					finish();
+				}
 			}, "json");
 		}
 		function finish()
@@ -208,10 +209,7 @@
 						width: $(window).width()-20,
 						left: 20,
 						top: newTop,
-					}, 
-					{
-						duration: 900,
-					});
+					}, 900);
 
 					$('#lower').css({ 
 						"top" : (newTop + $(this).height()),
