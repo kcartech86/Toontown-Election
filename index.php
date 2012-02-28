@@ -115,7 +115,8 @@ $(document).ready(function() {
 		else
 		{
 			//Let's put a jquery popup page here. It should work about the same and should blend better.
-			alert("The only valid voter numbers are 1001 - 1049")
+			//alert("The only valid voter numbers are 1001 - 1049")
+			$.mobile.changePage("#warning");
 		}
 	});
 	$('.candidateLink').tap(function(e) {
@@ -230,6 +231,7 @@ $(document).ready(function() {
 </head>
 
 <body>
+
 <!-- Start of first page: #one -->
 <div data-role="page" id="one">
 
@@ -329,6 +331,26 @@ $(document).ready(function() {
 	<div data-role="footer" data-id="voter" data-position="fixed">
 		<h4 class="voterIdNum"></h4>
 	</div><!-- /footer -->
+	
+<!-- Start of WARNING popup menu ------------------------------------------------------------------------------->
+<div id="warning">
+
+	<div data-role="header">
+		<h1>WARNING!</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<div data-role="controlgroup">
+            <p>The only valid voter numbers are 1001 - 1049. Please enter your number again or try a different valid entry.</p>
+            
+            <a href="#one" data-role="button">Retry</a>            
+        </div>	
+	</div><!-- /content -->
+	
+	<div data-role="footer">
+		<h1>WARNING!</h1>
+	</div><!-- /footer -->
+</div><!-- /page ------------------------------------------------------------------------------------------------>
 </div>
 </body>
 </html>
