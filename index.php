@@ -6,7 +6,7 @@
   
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="assets/css/themes/toon.css" />
+<link rel="stylesheet" href="assets/css/themes/warnerbros_theme.css" />
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile.structure-1.0.1.min.css" /> 
 <title>Toon-town Mayoral Election</title>
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
