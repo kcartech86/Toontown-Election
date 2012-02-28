@@ -9,7 +9,7 @@
 <!-- Google fonts link -->
 <link href='http://fonts.googleapis.com/css?family=Lilita+One|Shadows+Into+Light+Two|Original+Surfer' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="assets/css/themes/warnerbros_theme.css" />
+<link rel="stylesheet" href="assets/css/themes/warnerbros_theme.min.css" />
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile.structure-1.0.1.min.css" /> 
 <title>Toon-town Mayoral Election</title>
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
@@ -116,7 +116,9 @@ $(document).ready(function() {
 		{
 			//Let's put a jquery popup page here. It should work about the same and should blend better.
 			//alert("The only valid voter numbers are 1001 - 1049")
-			$.mobile.changePage("#warning");
+			//$.mobile.changePage("#warning");
+			$.mobile.changePage( "#warning", { transition: "pop"}, {rel: "dialogue"} );
+			
 		}
 	});
 	$('.candidateLink').tap(function(e) {
@@ -233,7 +235,7 @@ $(document).ready(function() {
 <body>
 
 <!-- Start of first page: #one -->
-<div data-role="page" id="one">
+<div data-role="page" data-theme="a" id="one">
 
 	<div data-role="header">
 		<h1>Sign In</h1>
@@ -251,7 +253,7 @@ $(document).ready(function() {
 
 
 <!-- Start of second page: #two -->
-<div data-role="page" id="two">	
+<div data-role="page" data-theme="a" id="two">	
 	<div data-role="header" data-position="fixed">
 		<h1>About Each Candidate</h1>
 	</div><!-- /header -->
@@ -268,7 +270,7 @@ $(document).ready(function() {
 
 
 <!-- Start of third page: #popup -->
-<div data-role="page" id="about">
+<div data-role="page" data-theme="a" id="about">
 	<div data-role="header" id="about-header" data-position="fixed">
 		<a data-direction="reverse" data-role="button" data-icon="back" href="#two">Back</a>
 		<h1></h1>
@@ -285,7 +287,9 @@ $(document).ready(function() {
 		<h4 class="voterIdNum"></h4>
 	</div><!-- /footer -->
 </div><!-- /page popup -->
-<div data-role="page" id="vote">
+
+
+<div data-role="page" data-theme="a" id="vote">
 
 	<div data-role="header" data-position="fixed">
 		<h1>Cast Your Vote <span class="voterIdNum"></span></h1>
@@ -306,7 +310,7 @@ $(document).ready(function() {
 		<h4 class="voterIdNum"></h4>
 	</div><!-- /footer -->
 </div><!-- /page popup -->
-<div data-role="page" id="results">
+<div data-role="page" data-theme="a" id="results">
 
 	<div data-role="header" data-position="fixed">
 		<h1>Voting Results</h1>
@@ -331,9 +335,10 @@ $(document).ready(function() {
 	<div data-role="footer" data-id="voter" data-position="fixed">
 		<h4 class="voterIdNum"></h4>
 	</div><!-- /footer -->
+</div>
 	
 <!-- Start of WARNING popup menu ------------------------------------------------------------------------------->
-<div id="warning">
+<div data-role="page" data-theme="a" id="warning">
 
 	<div data-role="header">
 		<h1>WARNING!</h1>
@@ -351,6 +356,7 @@ $(document).ready(function() {
 		<h1>WARNING!</h1>
 	</div><!-- /footer -->
 </div><!-- /page ------------------------------------------------------------------------------------------------>
-</div>
+
+
 </body>
 </html>
