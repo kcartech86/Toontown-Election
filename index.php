@@ -6,6 +6,9 @@
   
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google fonts link -->
+<link href='http://fonts.googleapis.com/css?family=Lilita+One|Shadows+Into+Light+Two|Original+Surfer' rel='stylesheet' type='text/css'>
+
 <link rel="stylesheet" href="assets/css/themes/warnerbros_theme.css" />
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile.structure-1.0.1.min.css" /> 
 <title>Toon-town Mayoral Election</title>
