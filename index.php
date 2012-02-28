@@ -114,6 +114,7 @@ $(document).ready(function() {
 		}
 		else
 		{
+			//Let's put a jquery popup page here. It should work about the same and should blend better.
 			alert("The only valid voter numbers are 1001 - 1049")
 		}
 	});
